@@ -39,7 +39,6 @@ export function HomePage() {
   }
 
   const filteredLaunchers = (data ? data : []).filter((launcher) => {
-    console.log(filter.type)
     const matchesCity = launcher.city
       ?.toLowerCase()
       .includes(filter.city.toLowerCase());

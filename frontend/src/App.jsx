@@ -6,20 +6,24 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 //pages
 import { HomePage } from './pages/HomePage'
-import {}
+import { AddLauncherPage } from './pages/AddLauncherPage'
+import { LauncherDetailesPage } from './pages/LauncherDetailsPage'
 
 //components
 
 
+export const queryClient = new QueryClient()
+
 function App() {
 
-  const queryClient = new QueryClient()
   return (
     <QueryClientProvider client={queryClient}>
       <div className="main-container">
       <BrowserRouter>
         <Routes>
           <Route path='/'  element={ <HomePage />}/>
+          <Route path='/add-launcher-page'  element={ <AddLauncherPage />}/>
+          <Route path='/launcher-detailes/:id'  element={ <LauncherDetailesPage />}/>
         </Routes>
       </BrowserRouter>
       </div>

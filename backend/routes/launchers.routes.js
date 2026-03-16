@@ -1,15 +1,15 @@
 import { Router } from "express";
-import { getLaunchers } from "../controllers/launchers.controller.js";
+import { getLaunchers, getLauncher, addLauncher, deleteLauncher} from "../controllers/launchers.controller.js";
 
 const router = Router()
 
 router.route('/')
     .get(getLaunchers)
-    // .post()
+    .post(addLauncher)
 
 
-// router.route('/launchers:id')
-//     .get()
-//     .delete()
+router.route('/:id')
+    .get(getLauncher)
+    .delete(deleteLauncher)
 
 export default router

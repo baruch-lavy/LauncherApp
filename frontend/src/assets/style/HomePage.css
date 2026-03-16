@@ -1,0 +1,51 @@
+
+.home-page-container {
+    min-height: 100vh;
+    min-width: 100vh;
+    background: lightblue;
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    button {
+        background: rgb(121, 177, 195);
+        border: none;
+        padding: 0.4rem;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .filters {
+        background: rgb(175, 165, 165);
+        border-radius: 6px;
+        padding: 0.4rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        input, select{
+            padding: 0.4rem;
+        }
+    }
+
+    .launchrs-list {
+        border: 2px solid lightskyblue;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        gap: 0.4rem;
+
+        .launcher-item{
+            border: 3px solid lightsteelblue;
+            padding: 1rem;
+            display: flex;
+            gap: 0.3rem;
+            flex-direction: column;
+            cursor: pointer;
+        }
+    }
+}

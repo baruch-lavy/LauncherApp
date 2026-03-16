@@ -31,7 +31,7 @@ async function ajax(endpoint, method='GET', data) {
         const res = await axios(options)
         return res.data
     } catch (error) {
-        console.log(`eror in ${method} endpoint ${endpoint}`)
+        console.log(`eror in ${method} endpoint ${endpoint}`, error)
         throw error
     }
 }

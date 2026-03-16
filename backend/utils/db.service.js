@@ -11,10 +11,15 @@ let dbConn = null;
 export async function getCollection(colllectionName) {
   try {
     const db = await connect();
-    const collection = db.collection(colllectionName);
+    const collection = await db.collection(colllectionName);
+
+    if (colllectionName === 'users') {
+        collection.createIndex({username: 1}, {unique: true})
+    }
+   
     return collection;
   } catch (error) {
-    console.log(error);
+    console.log('error in getCollection', error.message);
   }
 }
 
@@ -22,7 +27,8 @@ export async function connect() {
   if (dbConn) return dbConn;
   try {
     const client = new MongoClient(uri);
-    dbConn = await client.connect(dbName);
+    await client.connect()
+    dbConn = client.db(dbName);
     return dbConn;
   } catch (error) {
     console.log(error)

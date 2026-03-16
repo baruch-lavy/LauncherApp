@@ -38,13 +38,13 @@ export function HomePage() {
     }));
   }
 
-  const filteredLaunchers = (data ?? []).filter((launcher) => {
+  const filteredLaunchers = (data ? data : []).filter((launcher) => {
+    console.log(filter.type)
     const matchesCity = launcher.city
       ?.toLowerCase()
       .includes(filter.city.toLowerCase());
 
     const matchesType = filter.type ? launcher.type === filter.type : true;
-
     return matchesCity && matchesType;
   });
 

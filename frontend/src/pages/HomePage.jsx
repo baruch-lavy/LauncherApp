@@ -3,13 +3,16 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { launcherService } from "../services/launchers.remote.service";
 import { useNavigate } from "react-router";
 import { queryClient } from "../App";
+import { useStore } from "../store/userStore";
 
 export function HomePage() {
   const navigate = useNavigate();
+  const loggedinUser = useStore((state) => state.loggedinUser);
+  console.log(loggedinUser);
   const [filter, setFilter] = useState({
     city: "",
     type: "",
-    isDestroyed:''
+    isDestroyed: "",
   });
 
   const { data, isLoading, error } = useQuery({
@@ -50,7 +53,9 @@ export function HomePage() {
       .includes(filter.city.toLowerCase());
 
     const matchesType = filter.type ? launcher.type === filter.type : true;
-    const matchesCondition = filter.isDestroyed ? String(launcher.isDestroyed).includes(filter.isDestroyed) : true;
+    const matchesCondition = filter.isDestroyed
+      ? String(launcher.isDestroyed).includes(filter.isDestroyed)
+      : true;
 
     return matchesCity && matchesType && matchesCondition;
   });
@@ -90,8 +95,8 @@ export function HomePage() {
             value={filter.isDestroyed}
           >
             <option value="">All Condidions</option>
-            <option value='true'>destroyed</option>
-            <option value='false'>not destroyed</option>
+            <option value="true">destroyed</option>
+            <option value="false">not destroyed</option>
           </select>
         </div>
         <h1>home page</h1>
@@ -121,6 +126,10 @@ export function HomePage() {
 
               <button onClick={() => destroyLauncher(launcher._id)}>
                 destroy launcher
+              </button>
+
+              <button onClick={() => navigate(`/edit-launcher-page/${launcher._id}`)}>
+                Edit Launcher
               </button>
             </div>
           ))}

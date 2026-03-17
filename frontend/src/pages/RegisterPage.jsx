@@ -12,8 +12,6 @@ export function RegisterPage() {
 
   const {
     mutate: deleteUser,
-    error: deleteUserError,
-    data: deleteUserData,
   } = useMutation({
     mutationFn: userServise.deleteUser,
     onSuccess: queryClient.invalidateQueries({ queryKey: ["users"] }),

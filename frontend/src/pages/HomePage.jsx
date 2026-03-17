@@ -7,8 +7,6 @@ import { useStore } from "../store/userStore";
 
 export function HomePage() {
   const navigate = useNavigate();
-  const loggedinUser = useStore((state) => state.loggedinUser);
-  console.log(loggedinUser);
   const [filter, setFilter] = useState({
     city: "",
     type: "",

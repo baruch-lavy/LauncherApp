@@ -3,6 +3,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { launcherService } from "../services/launchers.remote.service";
 import { useNavigate } from "react-router";
 import { queryClient } from "../App";
+import { Navbar } from "../components/Navbar";
 
 export function HomePage() {
   const navigate = useNavigate();
@@ -50,6 +51,7 @@ export function HomePage() {
   if (data) {
     return (
       <div className="home-page-container">
+        <Navbar/>
         <div className="filters">
           <label htmlFor="city-filter">Search by City</label>
           <input

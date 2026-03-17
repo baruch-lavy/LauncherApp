@@ -4,11 +4,13 @@ export async function login(req, res) {
   const { username, password } = req.body;
 
   try {
-    const token = await authService.login({ username, password });
-    if (token) {
-      res.cookie("loggedinUser", token, { sameSite: "None", secure: true });
+    const loggedinUser = await authService.login({ username, password });
+
+    if (loggedinUser.token) {
+      res.cookie("loggedinUser", loggedinUser.token, { sameSite: "None", secure: true });
     }
-    res.json("logged in successfuly");
+    delete loggedinUser.password
+    res.json(loggedinUser);
   } catch (error) {
     console.log("error in login controller", error);
     res.status(400).json("failed to login user");

@@ -5,7 +5,8 @@ export const userServise = {
     login,
     getUser,
     getUsers,
-    deleteUser
+    deleteUser,
+    updateUser
 } 
 
 async function register(user) {
@@ -14,6 +15,10 @@ async function register(user) {
 
 async function login(user) {
     return await httpService.post('auth/login', user)
+}
+
+async function updateUser(userToUpdate) {
+    return await httpService.put('users/updateUser', userToUpdate)
 }
 
 async function getUser(id) {

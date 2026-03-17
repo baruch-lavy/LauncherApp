@@ -42,6 +42,7 @@ async function add(user) {
 }
 
 async function update(user, detailes) {
+  if (!user) return Promise.reject('user required')
   try {
     const collection = await getCollection("users");
     const dbUser = await collection.findOne({ username: user.username });

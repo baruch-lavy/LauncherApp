@@ -10,19 +10,26 @@ export function RegisterPage() {
     onSuccess: queryClient.invalidateQueries({ queryKey: ["users"] }),
   });
 
-  const { mutate: deleteUser, error: deleteUserError, data: deleteUserData } = useMutation({
+  const {
+    mutate: deleteUser,
+    error: deleteUserError,
+    data: deleteUserData,
+  } = useMutation({
     mutationFn: userServise.deleteUser,
     onSuccess: queryClient.invalidateQueries({ queryKey: ["users"] }),
   });
 
-  const { data : users, isLoading, error: usersError } = useQuery({
-    queryKey: ['users'],
-    queryFn: userServise.getUsers
-  })
+  const {
+    data: users,
+    isLoading,
+    error: usersError,
+  } = useQuery({
+    queryKey: ["users"],
+    queryFn: userServise.getUsers,
+  });
 
   const form = useRef(null);
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   function handleSubmit(ev) {
     ev.preventDefault();
@@ -91,30 +98,25 @@ export function RegisterPage() {
       </form>
 
       <div className="users-list">
-        <h2>
-            users list
-        </h2>
+        <h2>users list</h2>
         {isLoading && <div>Loading...</div>}
-         {users && users.map((user) => (
+        {users &&
+          users.map((user) => (
             <div className="user-item" key={user._id}>
               <h3>Name: {user.username}</h3>
               <span>Type: {user.userType}</span>
               <span>Email: {user.email}</span>
-              <span>Last Login: {user.lastLogin || 'not login yet'}</span>
+              <span>Last Login: {user.lastLogin || "not login yet"}</span>
 
-              <button onClick={() => deleteUser(user._id)}>
-                Delete User
-              </button>
+              <button onClick={() => deleteUser(user._id)}>Delete User</button>
 
-              <button onClick={() => navigate('')}>
+              <button onClick={() => navigate(`/edit-user-page/${user._id}`)}>
                 Edit User
               </button>
             </div>
           ))}
-          {!users && (
-            <div>No User Found.</div>
-          )}
-        </div>
+        {!users && <div>No User Found.</div>}
       </div>
+    </div>
   );
 }

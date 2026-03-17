@@ -1,20 +1,22 @@
 import { useMutation } from "@tanstack/react-query";
 import { userServise } from "../services/users.remote.service";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useStore } from "../store/userStore";
 
 export function LoginPage() {
   const [isLoggedinSuccessfully, setIsLoggedinSuccessfully] = useState(false);
-  const setLoggedinUser = useStore(state => state.setLoggedinUser)
+  const setLoggedinUser = useStore((state) => state.setLoggedinUser);
 
-  const { mutate , data} = useMutation({
+  const { mutate, data } = useMutation({
     mutationFn: userServise.login,
-    onSuccess: () =>  setIsLoggedinSuccessfully(true),
+    onSuccess: () => setIsLoggedinSuccessfully(true),
   });
 
-  if (data) {
-    setLoggedinUser(data)
-  }
+  useEffect(() => {
+    if (data) {
+      setLoggedinUser(data);
+    }
+  }, [data, setLoggedinUser]);
 
   const form = useRef(null);
 
@@ -31,18 +33,19 @@ export function LoginPage() {
         username,
         password,
       };
-      mutate(user)
+      mutate(user);
       form.current.reset();
     }
   }
 
   return (
     <div className="login-container">
-        {isLoggedinSuccessfully && 
+      {isLoggedinSuccessfully && (
         <div className="success-msg">
-            <h4>logged in successfully</h4>
-            <button onClick={() => setIsLoggedinSuccessfully(false)}>X</button>
-        </div>}
+          <h4>logged in successfully</h4>
+          <button onClick={() => setIsLoggedinSuccessfully(false)}>X</button>
+        </div>
+      )}
       <h1>Login Page</h1>
       <form onSubmit={handleSubmit} ref={form}>
         <label htmlFor="username">Enter Your Username:</label>

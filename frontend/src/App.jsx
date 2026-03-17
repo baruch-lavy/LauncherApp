@@ -1,6 +1,6 @@
 import "./App.css";
 
-import { BrowserRouter, Routes, Route, Outlet } from "react-router";
+import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
@@ -12,8 +12,7 @@ import { RegisterPage } from "./pages/RegisterPage";
 import { LoginPage } from "./pages/LoginPage";
 
 //store
-import { useStore } from "./store/userStore"
-
+import { useStore } from "./store/userStore";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,12 +23,13 @@ export const queryClient = new QueryClient({
   },
 });
 
-function ProtecedRoute(alowedRoles) {
-  const loginUser = useStore((state) => state.loggedinUser);
-
-  if (alowedRoles.includes(loginUser.role)){
-    <Outlet />;
+function ProtecedRoute({alowedRoles}) {
+  const loggedinUser = useStore((state) => state.loggedinUser);
+  console.log(loggedinUser)
+  if (!alowedRoles.includes(loggedinUser.userType)) {
+    return <Navigate to={"/login-page"} replace />;
   }
+  return <Outlet />;
 }
 
 function App() {
@@ -44,8 +44,10 @@ function App() {
               path="/launcher-detailes/:id"
               element={<LauncherDetailesPage />}
             />
-            <Route path="/register-page" element={<RegisterPage />}/>
-            <Route path="/login-page" element={<LoginPage />}/>
+            <Route element={<ProtecedRoute alowedRoles={['admin']}/>}>
+              <Route path="/register-page" element={<RegisterPage />} />
+            </Route>
+            <Route path="/login-page" element={<LoginPage />} />
           </Routes>
         </BrowserRouter>
       </div>

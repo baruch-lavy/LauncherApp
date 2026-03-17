@@ -1,9 +1,14 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
-export const useStore = create((set) => ({
-  loggedinUser: {},
-  setLoggedinUser: (loggedinUser) => {
-    console.log(loggedinUser)
-    set({ loggedinUser })
-}
-}))
+export const useStore = create()(
+  persist(
+    (set) => ({
+      loggedinUser: {},
+      setLoggedinUser: (loggedinUser) => {
+        set({ loggedinUser })
+      },
+    }),
+    { name: 'user-storage' }
+  )
+)

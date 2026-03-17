@@ -13,7 +13,7 @@ export async function login(req, res) {
     res.json(loggedinUser);
   } catch (error) {
     console.log("error in login controller", error);
-    res.status(400).json("failed to login user");
+    res.status(400).json(`failed to login user ${error}`);
   }
 }
 
@@ -21,7 +21,7 @@ export async function signup(req, res) {
   const { username, password, userType, email } = req.body;
 
   if (!username || !password || !userType || !email) {
-    res.status(400).send("user detailes is missing");
+    return res.status(400).json("user detailes is missing");
   }
   const userToCreate = {
     username,

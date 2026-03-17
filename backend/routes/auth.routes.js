@@ -7,7 +7,13 @@ const router = Router()
 router.route('/login')
     .post(login)
 
-router.route('/signup')
+router.route('/register/create')
     .post(signup)
+
+// router.route('register/update')
+//     .put()
+
+// router.route('register/delete/:id')
+//     .delete()
 
 export default router

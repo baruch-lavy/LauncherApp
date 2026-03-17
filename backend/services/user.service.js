@@ -27,3 +27,7 @@ async function add(user) {
         throw error
     }
 }
+
+async function update(userDetailes) {
+    
+}

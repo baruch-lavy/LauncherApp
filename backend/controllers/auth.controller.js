@@ -8,7 +8,7 @@ export async function login(req, res) {
     if (token) {
       res.cookie("loggedinUser", token, { sameSite: "None", secure: true });
     }
-    res.json("logged im successfuly");
+    res.json("logged in successfuly");
   } catch (error) {
     console.log("error in login controller", error);
     res.status(400).json("failed to login user");
@@ -16,15 +16,16 @@ export async function login(req, res) {
 }
 
 export async function signup(req, res) {
-  const { username, password, role } = req.body;
+  const { username, password, userType, email } = req.body;
 
-  if (!username || !password || !role) {
+  if (!username || !password || !userType || !email) {
     res.status(400).send("user detailes is missing");
   }
   const userToCreate = {
     username,
     password,
-    role,
+    userType,
+    email
   };
   try {
     const result = await authService.signup(userToCreate);
@@ -33,4 +34,8 @@ export async function signup(req, res) {
     console.log("error in sign up controller", error);
     res.status(400).json("failed to signup user");
   }
+}
+
+export async function logout(req, res) {
+
 }

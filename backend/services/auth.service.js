@@ -7,7 +7,8 @@ const jwtSecret = process.env.JWT_SECRET
 
 export const authService = {
     signup,
-    login
+    login,
+    logout
 }
 
 async function login(userDetailes) {
@@ -17,6 +18,7 @@ async function login(userDetailes) {
 
         const match = await bcrypt.compare(userDetailes.password, user.password)
         if (!match) throw new Error('password does not match')
+        // await userService.update({lastLogin: new Date().toLocaleDateString()})
         const token = getLoginToken(userDetailes)
         return token
     } catch (error) {
@@ -28,13 +30,13 @@ async function login(userDetailes) {
 async function signup(userDetailes) {
     try {
         const exsist = await userService.getUserByName(userDetailes.username)
-        console.log('exist', exsist)
 
         if (exsist) throw new Error('user already exsisted')
 
         const userToAdd = {
             ...userDetailes,
-            password: await bcrypt.hash(userDetailes.password, 10)
+            password: await bcrypt.hash(userDetailes.password, 10),
+            lastLogin: null
         }
         
         const newUserId = userService.add(userToAdd)
@@ -43,6 +45,10 @@ async function signup(userDetailes) {
         console.log('error in signup service', error)
         throw error
     }
+}
+
+async function logout(id) {
+
 }
 
 export function getLoginToken(userDetailes) {

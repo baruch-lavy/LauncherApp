@@ -8,9 +8,12 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { HomePage } from "./pages/HomePage";
 import { AddLauncherPage } from "./pages/AddLauncherPage";
 import { LauncherDetailesPage } from "./pages/LauncherDetailsPage";
-import { useStore } from "./store/userStore";
+import { RegisterPage } from "./pages/RegisterPage";
+import { LoginPage } from "./pages/LoginPage";
 
-//components
+//store
+import { useStore } from "./store/userStore"
+
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,6 +44,8 @@ function App() {
               path="/launcher-detailes/:id"
               element={<LauncherDetailesPage />}
             />
+            <Route path="/register-page" element={<RegisterPage />}/>
+            <Route path="/login-page" element={<LoginPage />}/>
           </Routes>
         </BrowserRouter>
       </div>

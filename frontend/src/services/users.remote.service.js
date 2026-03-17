@@ -3,7 +3,9 @@ import { httpService } from "./http.servise";
 export const userServise = {
     register,
     login,
-    getUser
+    getUser,
+    getUsers,
+    deleteUser
 } 
 
 async function register(user) {
@@ -16,4 +18,12 @@ async function login(user) {
 
 async function getUser(id) {
     return await httpService.get(`auth/getUser/${id}`)
+}
+
+async function deleteUser(id) {
+    return await httpService.delete(`auth/register/delete/${id}`)
+}
+
+async function getUsers() {
+    return await httpService.get('users')
 }

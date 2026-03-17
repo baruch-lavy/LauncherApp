@@ -8,6 +8,7 @@ import { connect } from './utils/db.service.js'
 
 import authRoutes from './routes/auth.routes.js'
 import launchersRoutes from './routes/launchers.routes.js'
+import userRoutes from './routes/user.routes.js'
 
 dotenv.config()
 
@@ -40,6 +41,7 @@ app.use(setAsyncLocalStorage)
 
 app.use('/api/auth',authRoutes)
 app.use('/api/launchers', launchersRoutes)
+app.use('/api/users', userRoutes)
 
 
 const port  = process.env.PORT || 3030

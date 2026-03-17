@@ -3,13 +3,13 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { launcherService } from "../services/launchers.remote.service";
 import { useNavigate } from "react-router";
 import { queryClient } from "../App";
-import { Navbar } from "../components/Navbar";
 
 export function HomePage() {
   const navigate = useNavigate();
   const [filter, setFilter] = useState({
     city: "",
     type: "",
+    isDestroyed:''
   });
 
   const { data, isLoading, error } = useQuery({
@@ -19,6 +19,11 @@ export function HomePage() {
 
   const { mutate } = useMutation({
     mutationFn: launcherService.deleteLauncher,
+    onSuccess: queryClient.invalidateQueries({ queryKey: ["launchers"] }),
+  });
+
+  const { mutate: destroyLauncher } = useMutation({
+    mutationFn: launcherService.destroyLauncher,
     onSuccess: queryClient.invalidateQueries({ queryKey: ["launchers"] }),
   });
 
@@ -45,13 +50,14 @@ export function HomePage() {
       .includes(filter.city.toLowerCase());
 
     const matchesType = filter.type ? launcher.type === filter.type : true;
-    return matchesCity && matchesType;
+    const matchesCondition = filter.isDestroyed ? String(launcher.isDestroyed).includes(filter.isDestroyed) : true;
+
+    return matchesCity && matchesType && matchesCondition;
   });
 
   if (data) {
     return (
       <div className="home-page-container">
-        <Navbar/>
         <div className="filters">
           <label htmlFor="city-filter">Search by City</label>
           <input
@@ -75,6 +81,18 @@ export function HomePage() {
             <option value="Radwan">Radwan</option>
             <option value="Kheibar">Kheibar</option>
           </select>
+
+          <label htmlFor="isDestroyed">Filter by Launcher Condition</label>
+          <select
+            name="isDestroyed"
+            id="isDestroyed"
+            onChange={handleFilter}
+            value={filter.isDestroyed}
+          >
+            <option value="">All Condidions</option>
+            <option value='true'>destroyed</option>
+            <option value='false'>not destroyed</option>
+          </select>
         </div>
         <h1>home page</h1>
         <div className="links">
@@ -90,6 +108,7 @@ export function HomePage() {
               <span>Longitude: {launcher?.longitude}</span>
               <span>Latitude:{launcher.latitude}</span>
               <span>City: {launcher.city}</span>
+              <span>Is Destroyed: {String(launcher.isDestroyed)}</span>
 
               <button
                 onClick={() => navigate(`/launcher-detailes/${launcher._id}`)}
@@ -98,6 +117,10 @@ export function HomePage() {
               </button>
               <button onClick={() => mutate(launcher._id)}>
                 delete launcher
+              </button>
+
+              <button onClick={() => destroyLauncher(launcher._id)}>
+                destroy launcher
               </button>
             </div>
           ))}

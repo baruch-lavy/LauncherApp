@@ -13,6 +13,7 @@ import { LoginPage } from "./pages/LoginPage";
 
 //store
 import { useStore } from "./store/userStore";
+import { Navbar } from "./components/Navbar";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,7 +26,6 @@ export const queryClient = new QueryClient({
 
 function ProtecedRoute({alowedRoles}) {
   const loggedinUser = useStore((state) => state.loggedinUser);
-  console.log(loggedinUser)
   if (!alowedRoles.includes(loggedinUser.userType)) {
     return <Navigate to={"/login-page"} replace />;
   }
@@ -37,6 +37,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <div className="main-container">
         <BrowserRouter>
+        <Navbar/>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/add-launcher-page" element={<AddLauncherPage />} />

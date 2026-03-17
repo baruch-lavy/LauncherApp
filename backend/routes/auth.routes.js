@@ -1,13 +1,17 @@
 import { Router } from "express";
 
-import {signup, login} from '../controllers/auth.controller.js'
+import {signup, login, getUser} from '../controllers/auth.controller.js'
+import { requireAdmin } from "../middlewares/requireAuth.middleware.js";
 
 const router = Router()
 
 router.route('/login')
     .post(login)
 
-router.route('/register/create')
+router.route('/getUser/:id')
+    .get(getUser)
+
+router.route('/register/create', requireAdmin)
     .post(signup)
 
 // router.route('register/update')

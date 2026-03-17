@@ -5,7 +5,8 @@ export const launchersServise = {
     getLaunchers,
     getLauncher,
     addLauncher,
-    deleteLauncher
+    deleteLauncher,
+    destroyLauncher,
 }
 
 async function getLaunchers() {
@@ -39,6 +40,22 @@ async function deleteLauncher(id) {
     try {
         const collection = await getCollection('launchers')
         return await collection.deleteOne({_id : launcherId})
+    } catch (error) {
+        console.log('error in get launchrs service', error)
+        throw error
+    }
+}
+
+async function destroyLauncher(id) {
+    if (!ObjectId.isValid(id)) throw Error('id is not valid')
+
+    const launcherId = ObjectId.createFromHexString(id)
+    try {
+        const collection = await getCollection('launchers')
+        return await collection.updateOne(
+            {_id : launcherId},
+            {$set: {isDestroyed: true}}
+        )
     } catch (error) {
         console.log('error in get launchrs service', error)
         throw error

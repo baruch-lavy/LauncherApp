@@ -1,0 +1,16 @@
+.navbar {
+    background: lightpink;
+    padding: 0.4rem;
+
+    ul {
+        display: flex;
+        gap: 0.2rem;
+        justify-content: space-between;
+        list-style: none;
+
+        li {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+}

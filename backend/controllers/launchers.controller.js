@@ -34,6 +34,17 @@ export async function deleteLauncher(req,res) {
     }
 }
 
+export async function destroyLauncher(req,res) {
+    const { id } = req.params
+    try {
+        const result = await launchersServise.destroyLauncher(id)
+        res.json(result)
+    } catch (error) {
+        console.log('error in get launchers controller' , error)
+        res.status(400).json('failed to get launchers')
+    }
+}
+
 export async function addLauncher(req,res) {
     const { name, type, longitude, latitude, city } = req.body
 

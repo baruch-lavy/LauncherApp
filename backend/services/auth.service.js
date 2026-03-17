@@ -1,16 +1,18 @@
 import { userService } from "./user.service.js";
+import { getCollection } from "../utils/db.service.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { ObjectId } from "mongodb";
 
-dotenv.config()
+dotenv.config();
 
 const jwtSecret = process.env.JWT_SECRET;
 
 export const authService = {
   signup,
   login,
-  logout,
+  getUser,
 };
 
 async function login(userDetailes) {
@@ -20,12 +22,14 @@ async function login(userDetailes) {
 
     const match = await bcrypt.compare(userDetailes.password, user.password);
     if (!match) throw Promise.reject("password does not match");
-    await userService.update(user, {lastLogin: new Date().toLocaleDateString()})
+    await userService.update(user, {
+      lastLogin: new Date().toLocaleDateString(),
+    });
     const token = getLoginToken(user);
 
     const loggedinUser = {
       ...user,
-      token
+      token,
     };
     return loggedinUser;
   } catch (error) {
@@ -54,7 +58,17 @@ async function signup(userDetailes) {
   }
 }
 
-async function logout(id) {}
+async function getUser(id) {
+  if (!ObjectId.isValid(id)) return Promise.reject("id is not valid");
+  const userId = ObjectId.createFromHexString(id);
+  try {
+    const collection = await getCollection("users");
+    return await collection.find({ _id: userId }).toArray();
+  } catch (error) {
+    console.log("error in getUser service", error);
+    throw error;
+  }
+}
 
 export function getLoginToken(userDetailes) {
   return jwt.sign(userDetailes, jwtSecret, { expiresIn: "1d" });

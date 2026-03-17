@@ -7,7 +7,7 @@ export function LoginPage() {
   const [isLoggedinSuccessfully, setIsLoggedinSuccessfully] = useState(false);
   const setLoggedinUser = useStore((state) => state.setLoggedinUser);
 
-  const { mutate, data } = useMutation({
+  const { mutate, data, error } = useMutation({
     mutationFn: userServise.login,
     onSuccess: () => setIsLoggedinSuccessfully(true),
   });
@@ -44,6 +44,11 @@ export function LoginPage() {
         <div className="success-msg">
           <h4>logged in successfully</h4>
           <button onClick={() => setIsLoggedinSuccessfully(false)}>X</button>
+        </div>
+      )}
+      {error && (
+        <div className="success-msg">
+          <h4>{error.response?.data}</h4>
         </div>
       )}
       <h1>Login Page</h1>

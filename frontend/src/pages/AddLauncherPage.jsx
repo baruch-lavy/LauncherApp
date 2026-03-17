@@ -1,16 +1,19 @@
 import { useMutation } from "@tanstack/react-query";
 import { launcherService } from "../services/launchers.remote.service";
 import { queryClient } from "../App";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export function AddLauncherPage() {
-  const { mutate } = useMutation({
+  const [isSuccessfullyCreated, setIsSuccessfullyCreated] = useState(false);
+  const { mutate, error } = useMutation({
     mutationFn: launcherService.addLauncher,
-    onSuccess: queryClient.invalidateQueries({ queryKey: ["launchers"] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["launchers"] });
+      setIsSuccessfullyCreated(true);
+    },
   });
 
-
-  const form = useRef(null)
+  const form = useRef(null);
   function handleSubmit(ev) {
     ev.preventDefault();
 
@@ -33,16 +36,27 @@ export function AddLauncherPage() {
           longitude,
           latitude,
           city,
+          isDestroyed: false,
         };
         mutate(launcher);
-        form.current.reset()
+        form.current.reset();
       }
     }
+  }
+
+  if (error) {
+    return <div>{error.response?.data}</div>;
   }
 
   return (
     <div className="add-launcher-container">
       <h1>Add Launcher Page</h1>
+      {isSuccessfullyCreated && (
+        <div className="success-msg">
+          <h4>Created Successfully</h4>
+          <button onClick={() => setIsSuccessfullyCreated(false)}>X</button>
+        </div>
+      )}
       <form onSubmit={handleSubmit} ref={form}>
         <label htmlFor="name">Enter Launcher Name:</label>
         <input

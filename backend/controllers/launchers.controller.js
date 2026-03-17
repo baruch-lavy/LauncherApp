@@ -46,14 +46,15 @@ export async function destroyLauncher(req,res) {
 }
 
 export async function addLauncher(req,res) {
-    const { name, type, longitude, latitude, city } = req.body
+    const { name, type, longitude, latitude, city, isDestroyed} = req.body
 
     const launcherToAdd = {
         name,
         type,
         longitude,
         latitude,
-        city
+        city,
+        isDestroyed
     }
     try {
         const result = await launchersServise.addLauncher(launcherToAdd)

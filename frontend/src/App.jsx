@@ -27,7 +27,7 @@ export const queryClient = new QueryClient({
   },
 });
 
-function ProtecedRoute({alowedRoles}) {
+function ProtecedRoute({ alowedRoles }) {
   const loggedinUser = useStore((state) => state.loggedinUser);
   if (!alowedRoles.includes(loggedinUser.userType)) {
     return <Navigate to={"/login-page"} replace />;
@@ -40,19 +40,19 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <div className="main-container">
         <BrowserRouter>
-        <Navbar/>
+          <Navbar />
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/home-page" element={<HomePage />} />
             <Route path="/add-launcher-page" element={<AddLauncherPage />} />
             <Route
               path="/launcher-detailes/:id"
               element={<LauncherDetailesPage />}
             />
-            <Route element={<ProtecedRoute alowedRoles={['admin']}/>}>
+            <Route element={<ProtecedRoute alowedRoles={["admin"]} />}>
               <Route path="/register-page" element={<RegisterPage />} />
               <Route path="/edit-user-page/:id" element={<EditUserPage />} />
             </Route>
-            <Route path="/login-page" element={<LoginPage />} />
           </Routes>
         </BrowserRouter>
       </div>

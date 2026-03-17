@@ -14,9 +14,6 @@ router.route('/getUser/:id')
 router.route('/register/create', requireAdmin)
     .post(signup)
 
-// router.route('register/update')
-//     .put()
-
 router.route('/register/delete/:id')
     .delete(requireAdmin, deleteUser)
 

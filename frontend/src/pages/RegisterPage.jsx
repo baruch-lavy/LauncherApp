@@ -61,7 +61,7 @@ export function RegisterPage() {
   return (
     <div className="register-page-container">
       {error && <div>{error.response?.data}</div>}
-      <h1>Add Launcher Page</h1>
+      <h1>Register Page</h1>
       <form onSubmit={handleSubmit} ref={form}>
         <label htmlFor="username">Enter User Name:</label>
         <input

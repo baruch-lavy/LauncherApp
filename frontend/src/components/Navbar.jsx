@@ -27,9 +27,9 @@ export function Navbar() {
       <ul>
         <li onClick={showUser}>get Loggedin User</li>
         <li onClick={() => navigate("/register-page")}>Register Page</li>
-        <li onClick={() => navigate("/login-page")}>Login Page</li>
-        <li>Home Page</li>
-        <li>Add Launcher</li>
+        <li onClick={() => navigate("/")}>Login Page</li>
+        <li onClick={() => navigate("/home-page")}>Home Page</li>
+        <li onClick={() => navigate("/add-launcher-page")}>Add Launcher</li>
       </ul>
     </div>
   );

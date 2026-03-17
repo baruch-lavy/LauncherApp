@@ -14,7 +14,6 @@ export function setAsyncLocalStorage(req, res, next) {
         const alsStore = asyncLocalSotorage.getStore();
         alsStore.loggedinUser = loggedinUser;
     }
-
     next();
   });
 }

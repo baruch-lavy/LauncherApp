@@ -1,89 +1,83 @@
 import { useMutation } from "@tanstack/react-query";
-import { launcherService } from "../services/launchers.remote.service";
+import { userServise } from "../services/users.remote.service";
 import { queryClient } from "../App";
 import { useRef } from "react";
 
 export function RegisterPage() {
-  const { mutate } = useMutation({
-    mutationFn: launcherService.addLauncher,
-    onSuccess: queryClient.invalidateQueries({ queryKey: ["launchers"] }),
+  const { mutate, error, data } = useMutation({
+    mutationFn: userServise.register,
+    onSuccess: queryClient.invalidateQueries({ queryKey: ["users"] }),
   });
 
+  if (data) console.log(data)
+//   if (failureReason) console.log(failureReason)
 
-  const form = useRef(null)
+  const form = useRef(null);
   function handleSubmit(ev) {
     ev.preventDefault();
 
     const formData = new FormData(ev.currentTarget);
 
-    const name = formData.get("name");
-    const type = formData.get("type");
-    let longitude = formData.get("longitude");
-    let latitude = formData.get("latitude");
-    const city = formData.get("city");
+    const username = formData.get("username");
+    const userType = formData.get("userType");
+    const email = formData.get("email");
+    const password = formData.get("password");
 
-    if (typeof name === "string" && typeof city === "string") {
-      longitude = parseInt(longitude, 10);
-      latitude = parseInt(latitude, 10);
-
-      if (!isNaN(longitude) && !isNaN(latitude)) {
-        const launcher = {
-          name,
-          type,
-          longitude,
-          latitude,
-          city,
-        };
-        mutate(launcher);
-        form.current.reset()
-      }
+    if (
+      typeof username === "string" &&
+      typeof userType === "string" &&
+      typeof email === "string" &&
+      typeof password === "string"
+    ) {
+      const user = {
+        username,
+        userType,
+        email,
+        password,
+      };
+      mutate(user);
+      form.current.reset();
     }
   }
 
   return (
-    <div className="add-launcher-container">
+    <div className="register-page-container">
+      {error && <div>{error.message} {data}</div>}
+      {data && <div>{data}</div>}
       <h1>Add Launcher Page</h1>
       <form onSubmit={handleSubmit} ref={form}>
-        <label htmlFor="name">Enter Launcher Name:</label>
+        <label htmlFor="username">Enter User Name:</label>
         <input
           type="text"
-          name="name"
-          id="name"
-          placeholder="enter launcher name"
+          name="username"
+          id="username"
+          placeholder="ente username"
         />
-        <label htmlFor="type">Select the Launcher Type</label>
-        <select name="type" id="type">
-          <option value="Shabab3">Sabab3</option>
-          <option value="Fetah110">Fetah110</option>
-          <option value="Radwan">Radwan</option>
-          <option value="Kheibar">Kheibar</option>
+        <label htmlFor="userType">Select the User Role</label>
+        <select name="userType" id="userType">
+          <option value="">Select User Type</option>
+          <option value="admin">Admin</option>
+          <option value="airForce">Air Force</option>
+          <option value="intelligence">Intelligence</option>
         </select>
 
-        <label htmlFor="longitude">Enter Launcher Longtitude:</label>
+        <label htmlFor="email">Enter User Email:</label>
         <input
-          type="number"
-          name="longitude"
-          id="longitude"
-          placeholder="enter launcher longitude"
+          type="email"
+          name="email"
+          id="email"
+          placeholder="enter user email"
         />
 
-        <label htmlFor="latitude">Enter Launcher Latitude:</label>
-        <input
-          type="number"
-          name="latitude"
-          id="latitude"
-          placeholder="enter launcher latitude"
-        />
-
-        <label htmlFor="city">Enter Launcher City:</label>
+        <label htmlFor="password">Enter User Password:</label>
         <input
           type="text"
-          name="city"
-          id="city"
-          placeholder="enter launcher city"
+          name="password"
+          id="password"
+          placeholder="Enter User Password"
         />
 
-        <button type="submit">Submit Form</button>
+        <button type="submit">Register User</button>
       </form>
     </div>
   );

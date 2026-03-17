@@ -3,6 +3,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
+dotenv.config()
+
 const jwtSecret = process.env.JWT_SECRET;
 
 export const authService = {
@@ -14,12 +16,12 @@ export const authService = {
 async function login(userDetailes) {
   try {
     const user = await userService.getUserByName(userDetailes.username);
-    if (!user) throw new Error("user not found");
+    if (!user) return Promise.reject("user not found");
 
     const match = await bcrypt.compare(userDetailes.password, user.password);
-    if (!match) throw new Error("password does not match");
-    // await userService.update({lastLogin: new Date().toLocaleDateString()})
-    const token = getLoginToken(userDetailes);
+    if (!match) throw Promise.reject("password does not match");
+    await userService.update(user, {lastLogin: new Date().toLocaleDateString()})
+    const token = getLoginToken(user);
 
     const loggedinUser = {
       ...user,
@@ -36,7 +38,7 @@ async function signup(userDetailes) {
   try {
     const exsist = await userService.getUserByName(userDetailes.username);
 
-    if (exsist) throw new Error("user already exsisted");
+    if (exsist) return Promise.reject("user already exsisted");
 
     const userToAdd = {
       ...userDetailes,

@@ -1,0 +1,52 @@
+.login-container {
+    max-width: 1200px;
+    background: lightblue;
+    margin: 0 auto;
+    padding: 1rem;
+    
+    h1 {
+        text-align: center;
+    }
+
+    .success-msg {
+        background: lightseagreen;
+        padding: 1rem;
+
+        display: flex;
+        justify-content: space-around;
+
+        button {
+            padding: 0.6rem;
+            background: lightcoral;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            display: flex;
+            cursor: pointer;
+        }
+    }
+    
+    form{
+        border-radius: 5px;
+        background: lightcyan;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        padding: 1rem;
+
+        input,select {
+            padding: 0.4rem;
+        }
+        
+        label {
+            text-decoration: underline;
+        }
+
+        button {
+            background: rgb(186, 154, 154);
+            border: none;
+            border-radius: 5px;
+            padding: 0.4rem;
+        }
+    }
+}

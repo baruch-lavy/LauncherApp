@@ -1,4 +1,5 @@
 import { authService } from "../services/auth.service.js";
+import { userService } from "../services/user.service.js";
 
 export async function login(req, res) {
   const { username, password } = req.body;
@@ -49,4 +50,16 @@ export async function getUser(req, res) {
     res.status(400).json('error finding user', error)
   }
 
+}
+
+export async function deleteUser(req, res) {
+  
+  const { id } = req.params
+  try {
+    const result = await userService.deleteUser(id)
+    res.json(result)
+  } catch (error) {
+    console.log("error in delete user controller", error);
+    res.status(400).json('error delete user', error)
+  }
 }

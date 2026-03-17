@@ -10,9 +10,12 @@ import { AddLauncherPage } from "./pages/AddLauncherPage";
 import { LauncherDetailesPage } from "./pages/LauncherDetailsPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { LoginPage } from "./pages/LoginPage";
+import { EditUserPage } from "./pages/EditUserPape";
 
 //store
 import { useStore } from "./store/userStore";
+
+//components
 import { Navbar } from "./components/Navbar";
 
 export const queryClient = new QueryClient({
@@ -47,6 +50,7 @@ function App() {
             />
             <Route element={<ProtecedRoute alowedRoles={['admin']}/>}>
               <Route path="/register-page" element={<RegisterPage />} />
+              <Route path="/edit-user-page/:id" element={<EditUserPage />} />
             </Route>
             <Route path="/login-page" element={<LoginPage />} />
           </Routes>

@@ -1,9 +1,12 @@
+import { ObjectId } from "mongodb";
 import { getCollection } from "../utils/db.service.js";
 
 export const userService = {
   getUserByName,
   add,
   update,
+  getUsers,
+  deleteUser
 };
 
 async function getUserByName(username) {
@@ -17,6 +20,17 @@ async function getUserByName(username) {
   }
 }
 
+
+async function getUsers() {
+    try {
+        const collection = await getCollection('users')
+        return await collection.find().toArray()
+    } catch (error) {
+        console.log('error in get users service', error)
+        throw error
+    }
+}
+
 async function add(user) {
   try {
     const collection = await getCollection("users");
@@ -28,6 +42,7 @@ async function add(user) {
 }
 
 async function update(user, detailes) {
+  if (!user) return Promise.reject('user required')
   try {
     const collection = await getCollection("users");
     const dbUser = await collection.findOne({ username: user.username });
@@ -49,4 +64,17 @@ async function update(user, detailes) {
   } catch (error) {
     throw error;
   }
+}
+
+async function deleteUser(id) {
+    if (!ObjectId.isValid(id)) return Promise.reject('id is not valid')
+
+    const userId = ObjectId.createFromHexString(id)
+    try {
+        const collection = await getCollection('users')
+        return await collection.deleteOne({_id : userId})
+    } catch (error) {
+        console.log('error in delete user service', error)
+        throw error
+    }
 }

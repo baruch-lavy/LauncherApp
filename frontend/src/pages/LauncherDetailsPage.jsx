@@ -11,11 +11,11 @@ export function LauncherDetailesPage() {
   });
 
   if (isLoading) {
-    return <div>Loading</div>;
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div> error {JSON.stringify(error)}</div>;
+    return <div>{error.message}</div>;
   }
 
   if (data) {

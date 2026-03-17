@@ -23,6 +23,20 @@ export async function getLauncher(req,res) {
     }
 }
 
+export async function editLauncher(req,res) {
+    const launcherDetailes = req.body
+
+    const launcher = await launchersServise.getLauncher(launcherDetailes._id)
+
+    try {
+        const result = await launchersServise.update(launcher[0],launcherDetailes)
+        res.json(result)
+    } catch (error) {
+        console.log('error in edit launcher controller' , error)
+        res.status(400).json('failed to edit launchers')
+    }
+}
+
 export async function deleteLauncher(req,res) {
     const { id } = req.params
     try {

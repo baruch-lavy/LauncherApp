@@ -11,6 +11,7 @@ import { LauncherDetailesPage } from "./pages/LauncherDetailsPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import { LoginPage } from "./pages/LoginPage";
 import { EditUserPage } from "./pages/EditUserPape";
+import { EditLauncherPage } from "./pages/EditLauncherPage";
 
 //store
 import { useStore } from "./store/userStore";
@@ -45,6 +46,7 @@ function App() {
             <Route path="/" element={<LoginPage />} />
             <Route path="/home-page" element={<HomePage />} />
             <Route path="/add-launcher-page" element={<AddLauncherPage />} />
+            <Route path="/edit-launcher-page/:id" element={<EditLauncherPage />} />
             <Route
               path="/launcher-detailes/:id"
               element={<LauncherDetailesPage />}

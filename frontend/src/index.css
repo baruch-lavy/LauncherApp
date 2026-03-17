@@ -1,6 +1,25 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.success-msg {
+  background: lightseagreen;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+
+  display: flex;
+  justify-content: space-around;
+
+  button {
+    padding: 0.6rem;
+    background: lightcoral;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    display: flex;
+    cursor: pointer;
+  }
 }

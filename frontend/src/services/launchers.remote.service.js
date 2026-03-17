@@ -5,7 +5,8 @@ export const launcherService = {
   addLauncher,
   getLauncherById,
   deleteLauncher,
-  destroyLauncher
+  destroyLauncher,
+  updateLauncher
 };
 
 async function getLaunchers() {
@@ -14,6 +15,10 @@ async function getLaunchers() {
 
 async function addLauncher(launcher) {
   return await httpService.post("launchers", launcher);
+}
+
+async function updateLauncher(launcherToUpdate) {
+    return await httpService.put('launchers/edit', launcherToUpdate)
 }
 
 async function getLauncherById(id) {

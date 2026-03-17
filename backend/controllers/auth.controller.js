@@ -38,6 +38,15 @@ export async function signup(req, res) {
   }
 }
 
-export async function logout(req, res) {
+export async function getUser(req, res) {
+  
+  const { id } = req.params
+  try {
+    const user = await authService.getUser(id)
+    res.json(user)
+  } catch (error) {
+    console.log("error in get user controller", error);
+    res.status(400).json('error finding user', error)
+  }
 
 }

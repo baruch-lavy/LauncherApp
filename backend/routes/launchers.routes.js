@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { getLaunchers, getLauncher, addLauncher, deleteLauncher} from "../controllers/launchers.controller.js";
+import { getLaunchers, getLauncher, addLauncher, deleteLauncher, destroyLauncher} from "../controllers/launchers.controller.js";
+import { requireIntelligence } from "../middlewares/requireAuth.middleware.js";
 
 const router = Router()
 
@@ -10,6 +11,7 @@ router.route('/')
 
 router.route('/:id')
     .get(getLauncher)
-    .delete(deleteLauncher)
+    .delete(requireIntelligence,deleteLauncher)
+    .put(requireIntelligence,destroyLauncher)
 
 export default router

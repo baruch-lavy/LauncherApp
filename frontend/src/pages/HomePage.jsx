@@ -17,7 +17,7 @@ export function HomePage() {
     queryKey: ["launchers"],
     queryFn: launcherService.getLaunchers,
   });
-
+   
   const { mutate } = useMutation({
     mutationFn: launcherService.deleteLauncher,
     onSuccess: queryClient.invalidateQueries({ queryKey: ["launchers"] }),
@@ -44,13 +44,14 @@ export function HomePage() {
       [name]: value,
     }));
   }
-
+ 
   const filteredLaunchers = (data ? data : []).filter((launcher) => {
     const matchesCity = launcher.city
       ?.toLowerCase()
       .includes(filter.city.toLowerCase());
 
     const matchesType = filter.type ? launcher.type === filter.type : true;
+
     const matchesCondition = filter.isDestroyed
       ? String(launcher.isDestroyed).includes(filter.isDestroyed)
       : true;

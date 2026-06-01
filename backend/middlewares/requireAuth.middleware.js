@@ -10,7 +10,7 @@ export function requireAuth(req, res, next) {
 }
 
 export function requireAdmin(req, res, next) {
-  const { loggedinUser } = asyncLocalSotorage.getStore();
+  const { loggedinUser } = asyncLocalSotorage.getStore();  
 
   if (!loggedinUser) return res.status(401).send("Not authorise");
   if (loggedinUser.userType !== 'admin') return res.status(401).send("Not authorise");

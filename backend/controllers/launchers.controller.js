@@ -1,6 +1,5 @@
 import { launchersServise } from "../services/launchers.servise.js";
 
-
 export async function getLaunchers(req,res) {
 
     try {
